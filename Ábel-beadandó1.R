@@ -13,24 +13,31 @@ ess= data.frame (ess)
 
 
 #csak a plot
-fgv = function (m,c,d) {
-  if (is.data.frame(m)) {
-     
+fgv = function (m,c,d){
+  if (is.data.frame(m)){
+     if (is.numeric(c)){
+       if (is.numeric(d)){
       plot (x=c, y=d,type="p")
+       }   
+    }
   }
-
 }
 
 fgv1 (ess,ess$trstep,ess$trstun,"karmazsin","rossz")
-fgv (ess,ess$trstep,ess$trstun)
+fgv1 (mtcars,mtcars$hp,mtcars$drat,rök,cékla)
 
 #az egész egybe
-fgv1 = function (m,c,d,t,k) {
+fgv1 = function (m,c,d,t,k) { 
   if (is.data.frame(m)) {
-    plot (x=c, y=d,type="p")
+    if (is.numeric(c)){
+      if (is.numeric(d)){
+     plot (x=c, y=d,type="p")
+      }
+    }
   }
     t=title(main=t)
-      k=png ("k") + dev.off(k)
+     png (filename ="k")
+        dev.off()
 }
 
 
