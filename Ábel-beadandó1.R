@@ -23,21 +23,23 @@ fgv = function (m,c,d){
   }
 }
 
-fgv1 (ess,ess$trstep,ess$trstun,"karmazsin","rossz")
-fgv1 (mtcars,mtcars$hp,mtcars$drat,rök,cékla)
+
+fgv1 (mtcars,mtcars$hp,mtcars$drat,"remek","zsír")
 
 #az egész egybe
 fgv1 = function (m,c,d,t,k) { 
+  png (filename =k)
   if (is.data.frame(m)) {
     if (is.numeric(c)){
       if (is.numeric(d)){
-     plot (x=c, y=d,type="p")
+        plot (x=c, y=d,type="p",main=t)
       }
     }
   }
-    t=title(main=t)
-     png (filename ="k")
-        dev.off()
+   dev.off()
+        plot (x=c, y=d,type="p",main=t)
 }
+
+
 
 
