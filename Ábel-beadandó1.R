@@ -69,5 +69,5 @@ fgv2 = function (m,c,d,t,op="no",k) {
 }
 
 fgv2(mtcars,mtcars$disp,mtcars$hp,"teszt","n","teszt")
-#a 42. sori else-hez se az Rstudió, se a sima R szerint nem kell "{". Mármint hogy nem fogadták el azzal, nekem csak így futott le.
+#az 58. sori else-hez se az Rstudió, se a sima R szerint nem kell "{". Mármint hogy nem fogadták el azzal, nekem csak így futott le.
 
