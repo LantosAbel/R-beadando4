@@ -1,32 +1,11 @@
-#4. Hozz l�tre egy fgv-t, amelyik data.frame-t v�r bemenetk�nt, illetve k�t oszlop (v�ltoz�) nevet 
-#�s kimenetk�nt a k�t v�ltoz�ra k�sz�t egy scatterplot-t, amit kirajzol. 
-#Opcion�lisan lehessen tetsz�leges "title"-t hozz�adni, illetve k�pk�nt menteni is az eredm�nyt.
+#4. Hozz létre egy fgv-t, amelyik data.frame-t vár bemenetként, illetve két oszlop (változó) nevet 
+#és kimenetként a két változóra készít egy scatterplot-t, amit kirajzol. 
+#Opcionálisan lehessen tetszõleges "title"-t hozzáadni, illetve képként menteni is az eredményt.
 
 
-ess= read.spss("ESS6_HUN_autotranslate.sav",
-                rownames= F,
-                Stringsasfactors= T,
-                tolower= F,
-                as.data.frame= T,
-                reencode= T)
-ess= data.frame (ess)
+fgv1 (mtcars,mtcars$hp,mtcars$drat,"remek","zsír")
 
-
-#csak a plot
-fgv = function (m,c,d){
-  if (is.data.frame(m)){
-     if (is.numeric(c)){
-       if (is.numeric(d)){
-      plot (x=c, y=d,type="p")
-       }   
-    }
-  }
-}
-
-
-fgv1 (mtcars,mtcars$hp,mtcars$drat,"remek","zs�r")
-
-#az eg�sz egybe
+#az egész egybe
 fgv1 = function (m,c,d,t,k) { 
   png (filename =k)
   if (is.data.frame(m)) {
@@ -40,6 +19,55 @@ fgv1 = function (m,c,d,t,k) {
         plot (x=c, y=d,type="p",main=t)
 }
 
+#javított: ha még nincsen kész plot, akkor nem tud plotot kiadni, csak ha azonnal 
+#menteni is akarod. Ha már van kinnt egy plot, akkor tudja mentés nélkül is kiírni.
+#vagyis az op="no" legelsőre nem működik.De ha már van egy megjelenített plot, akkor már az is megy.
 
+#őszintén szólva lövésem sincs, hogy ezt hogyan tudnám megoldani; azt írta, hogy a dev.off()-al van valami probléma,
+#de ha azt máshova rakom, akkor meg mindig valami más romlik el.
+#A factorizálással is próbálkoztam, de sehogy sem akart belemenni. Erre:
+ifelse(is.numeric(c),
+    c1 <- c,
+    c1 <-as.factor(c)
+  )
 
+ifelse(is.numeric(d),
+       d1 <- d,
+       d1 <-as.factor(d)
+)  
+plot (x=c1, y=d1,type="p",main=t)
+#azt írta, hogy a plot nem találja a c1 objektumot. Az se segített, ha mindenhonnan levettem az egyest, és mindig önmagát írtam felül.
+#szóval jelen pillanatban ez a végleges változat:
+
+fgv2 = function (m,c,d,t,op="no",k) {
+  
+  if (!op =="no") {
+    
+    if (is.data.frame(m)) {
+      if("c" %in% colnames(m)){
+        if("d" %in% colnames(m)){
+          plot (x=as.numeric(c), y=as.numeric(d),type="p",main=t)
+        }
+      }
+    }
+    png (filename =k)
+    
+    print(plot (x=as.numeric(c), y=as.numeric(d),type="p",main=t))
+  }
+  
+  else (op =="no") 
+  
+  if (is.data.frame(m)) {
+    if("c" %in% colnames(m)){
+      if("d" %in% colnames(m)){
+        plot (x=as.numeric(c), y=as.numeric(d),type="p",main=t)
+      }
+    }
+  }
+  dev.off()
+  print(plot (x=as.numeric(c), y=as.numeric(d),type="p",main=t))
+}
+
+fgv2(mtcars,mtcars$disp,mtcars$hp,"teszt","n","teszt")
+#a 42. sori else-hez se az Rstudió, se a sima R szerint nem kell "{". Mármint hogy nem fogadták el azzal, nekem csak így futott le.
 
